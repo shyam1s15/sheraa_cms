@@ -1,0 +1,32 @@
+{
+  "hosting": [{
+    "site": "sheraa",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/#/"
+      }
+    ]
+  },{
+    "site": "cms-sheraa",
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/#/"
+      }
+    ]
+  }
+  ]
+}
