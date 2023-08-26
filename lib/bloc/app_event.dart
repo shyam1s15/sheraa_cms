@@ -10,3 +10,22 @@ sealed class AppEvent extends Equatable {
 class InitialAppEvent extends AppEvent {
   
 }
+
+class LoadUsersAppEvent extends AppEvent {}
+
+class LoadProductsAppEvent extends AppEvent {}
+
+class LoadOrdersAppEvent extends AppEvent {}
+
+class LoadCategoriesAppEvent extends AppEvent {}
+
+class LoadCreateProuductScreen extends AppEvent {}
+
+class SaveProductEvent extends AppEvent {
+  final ProductDto reqDto;
+
+  SaveProductEvent(this.reqDto);
+
+  @override
+  List<Object> get props => [reqDto];
+}

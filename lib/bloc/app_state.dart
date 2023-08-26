@@ -10,3 +10,38 @@ sealed class AppState extends Equatable {
 }
 
 final class AppInitial extends AppState {}
+
+class AppLoadingState extends AppState {
+
+}
+
+class UsersPageState extends AppState {}
+class OrdersPageState extends AppState {}
+class ProductsPageState extends AppState {
+  final List<ProductDto> products;
+
+  ProductsPageState(this.products);
+
+  @override
+  List<Object> get props => [products];
+}
+class CategoriesPageState extends AppState {}
+
+class AppErrorState extends AppState {
+  final String error;
+
+  const AppErrorState(this.error);
+  
+  @override
+  List<Object> get props => [error];
+}
+
+class EmptyScreenState extends AppState {}
+
+class ProductCreateScreenState extends AppState {
+  final CategoriesAndSubcategoriesListDto data;
+
+  const ProductCreateScreenState(this.data);
+  @override
+  List<Object> get props => [data];
+}
