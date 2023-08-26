@@ -1,32 +1,32 @@
+import 'dart:html';
 import 'dart:typed_data';
 
-import 'package:flutter/material.dart';
-
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sheraa_cms/api/base_api.dart';
-import 'dart:html';
-
-import 'package:sheraa_cms/api/file_api.dart';
-import 'package:sheraa_cms/api/obtained_response.dart';
-import 'package:sheraa_cms/api/products_api.dart';
-import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
+
+import '../../api/base_api.dart';
+import '../../api/file_api.dart';
+import '../../api/obtained_response.dart';
+import '../../api/products_api.dart';
+import '../../dto/categories_subcategories_list_dto.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 List<String> productImages = [];
 
-class ProductCreateScreen extends StatefulWidget {
-  final CategoriesAndSubcategoriesListDto data;
-  const ProductCreateScreen({super.key, required this.data});
-
+class ProductUpdateScreen extends StatefulWidget {
+  const ProductUpdateScreen(
+      {super.key, required this.categories, required this.product});
+  final CategoriesAndSubcategoriesListDto categories;
+  final ProductDto product;
   @override
-  State<ProductCreateScreen> createState() => _ProductCreateScreenState();
+  State<ProductUpdateScreen> createState() => _ProductUpdateScreenState();
 }
 
-class _ProductCreateScreenState extends State<ProductCreateScreen> {
+class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
   final TextEditingController _productNameController = TextEditingController();
-  String _category = "0";
+  String _category = "";
   final TextEditingController _productSubcategoryController =
       TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
@@ -52,10 +52,16 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    _category = widget.data.categories[0];
+    _category = widget.product.categoryName ?? widget.categories.categories[0];
+    _productNameController.text = widget.product.name ?? "";
+    _productPriceController.text = widget.product.price.toString();
+    _productDescriptionController.text = widget.product.description ?? "";
+    _productOfferTextController.text = widget.product.offerText ?? "";
+    _productSummaryController.text = widget.product.summary ?? "";
+
+    productImages = widget.product.images ?? [];
   }
 
-  // final controller
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -76,13 +82,13 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ),
           const Divider(height: 0),
           DropdownButton<String>(
-            value: widget.data.categories[0], // Default selected value
+            value: widget.categories.categories[0], // Default selected value
             onChanged: (String? newValue) {
               // Handle dropdown value change
               _category = newValue ?? "";
               print(newValue);
             },
-            items: widget.data.categories.map<DropdownMenuItem<String>>(
+            items: widget.categories.categories.map<DropdownMenuItem<String>>(
               (String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -155,6 +161,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
           ElevatedButton(
             onPressed: () async {
               ProductDto dto = ProductDto(
+                  id: widget.product.id,
                   name: _productNameController.text,
                   categoryName: _category,
                   description: _productDescriptionController.text,
@@ -194,7 +201,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 );
               }
             },
-            child: Text('Create Product'),
+            child: Text('Update Product'),
           ),
         ],
       ),
@@ -244,7 +251,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       print("failed to upload image");
       return;
     }
-    ;
 
     PlatformFile file = result.files.first;
 
@@ -299,16 +305,39 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _imageFiles.isNotEmpty
+          // _imageFiles.isNotEmpty
+          //     ? Row(
+          //         children: _imageFiles.asMap().entries.map((entry) {
+          //           return Padding(
+          //             padding: const EdgeInsets.all(8.0),
+          //             child: Column(
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               children: [
+          //                 Image.memory(
+          //                   Uint8List.fromList(entry.value.bytes!),
+          //                   width: 200,
+          //                   height: 200,
+          //                   fit: BoxFit.cover,
+          //                 ),
+          //                 IconButton(
+          //                     onPressed: () => _cancelImage(entry.key),
+          //                     icon: Icon(Icons.cancel))
+          //               ],
+          //             ),
+          //           );
+          //         }).toList(),
+          //       )
+
+           productImages.isNotEmpty
               ? Row(
-                  children: _imageFiles.asMap().entries.map((entry) {
+                  children: productImages.asMap().entries.map((entry) {
                     return Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Image.memory(
-                            Uint8List.fromList(entry.value.bytes!),
+                          Image.network(
+                            entry.value,
                             width: 200,
                             height: 200,
                             fit: BoxFit.cover,
@@ -321,7 +350,10 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
                     );
                   }).toList(),
                 )
-              : Padding(
+              : 
+              
+              
+              Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
                     width: 100,

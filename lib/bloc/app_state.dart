@@ -45,3 +45,13 @@ class ProductCreateScreenState extends AppState {
   @override
   List<Object> get props => [data];
 }
+
+class ProductUpdateScreenState extends AppState {
+  final CategoriesAndSubcategoriesListDto categories;
+  final ProductDto product;
+
+  ProductUpdateScreenState(this.categories, this.product);
+
+  @override
+  List<Object> get props => [categories, product];
+}

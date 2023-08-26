@@ -26,8 +26,7 @@ class ProductListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return products != null && products!.length > 0
-        ? Expanded(
+    return Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -60,6 +59,7 @@ class ProductListWidget extends StatelessWidget {
                     ],
                   ),
                 ),
+                products != null && products!.length > 0 ?
                 Expanded(
                   child: ListView.separated(
                     itemCount: products!.length,
@@ -69,11 +69,11 @@ class ProductListWidget extends StatelessWidget {
                     separatorBuilder: ((context, index) =>
                         const Divider(height: 0)),
                   ),
-                ),
+                )
+                : Container()
               ],
             ),
-        )
-        : Container();
+        );
   }
 }
 
@@ -83,22 +83,27 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: CircleAvatar(child: Text('A')),
-      title: Text(dto.name ?? ""),
-      subtitle: Row(
-        children: [
-          Text(
-            '(${dto.categoryName})',
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-          ),
-          // Text(
-          //   '(${dto.subcategoryName})',
-          //   style: TextStyle(color: Colors.blue, fontWeight: FontWeight.normal),
-          // ),
-        ],
+    return InkWell(
+      onTap: () {
+        BlocProvider.of<AppBloc>(context).add(LoadUpdateProductScreen(dto.id ?? ""));
+      },
+      child: ListTile(
+        leading: CircleAvatar(child: Text('A')),
+        title: Text(dto.name ?? ""),
+        subtitle: Row(
+          children: [
+            Text(
+              '(${dto.categoryName})',
+              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+            ),
+            // Text(
+            //   '(${dto.subcategoryName})',
+            //   style: TextStyle(color: Colors.blue, fontWeight: FontWeight.normal),
+            // ),
+          ],
+        ),
+        trailing: Icon(Icons.favorite_rounded),
       ),
-      trailing: Icon(Icons.favorite_rounded),
     );
   }
 }

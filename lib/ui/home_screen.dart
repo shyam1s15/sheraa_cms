@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/bloc/app_bloc.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
+import 'package:sheraa_cms/dto/product_dto.dart';
 import 'package:sheraa_cms/ui/products/product_create_screen.dart';
 import 'package:sheraa_cms/ui/products/product_list.dart';
+import 'package:sheraa_cms/ui/products/product_update_screen.dart';
 
 /// Flutter code sample for [NavigationRail].
 
@@ -109,6 +111,8 @@ class _NavRailExampleState extends State<NavRailExample> {
                 return ProductListWidget(products: state.products);
               } else if (state is ProductCreateScreenState) {
                 return ProductCreateScreen(data: state.data as CategoriesAndSubcategoriesListDto);
+              } else if (state is ProductUpdateScreenState) {
+                return ProductUpdateScreen(product: state.product as ProductDto, categories: state.categories as CategoriesAndSubcategoriesListDto);
               }
               else {
                 return Container();

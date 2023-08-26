@@ -29,3 +29,11 @@ class SaveProductEvent extends AppEvent {
   @override
   List<Object> get props => [reqDto];
 }
+
+class LoadUpdateProductScreen extends AppEvent {
+  final String productId;
+  LoadUpdateProductScreen(this.productId);
+
+  @override
+  List<Object> get props => [productId];
+}

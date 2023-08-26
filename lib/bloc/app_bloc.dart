@@ -8,6 +8,7 @@ import 'package:sheraa_cms/api/obtained_response.dart';
 import 'package:sheraa_cms/api/products_api.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
+import 'package:sheraa_cms/ui/products/product_update_screen.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
@@ -30,6 +31,7 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     on<LoadCreateProuductScreen>(_loadCreateProductScreen);
 
+    on <LoadUpdateProductScreen>(_loadUpdateProductScreen);
 
     
   }
@@ -71,6 +73,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       emit(ProductCreateScreenState(resp.data as CategoriesAndSubcategoriesListDto));
     } else {
       print("failed to get products"); 
+      emit(EmptyScreenState());
     }
+  }
+
+  FutureOr<void> _loadUpdateProductScreen(LoadUpdateProductScreen event, Emitter<AppState> emit) async {
+    CategoriesApi catApi = CategoriesApi();
+    ObtainedResponse catResp = await catApi.getCategoriesAndSubCategories();
+
+    ProductCmsApi productApi = ProductCmsApi();
+    ObtainedResponse productResp = await productApi.getProduct(event.productId);
+
+    if (catResp.result == API_RESULT.SUCCESS && productResp.result == API_RESULT.SUCCESS) {
+      emit(ProductUpdateScreenState(catResp.data as CategoriesAndSubcategoriesListDto, productResp.data as ProductDto));
+    } else {
+      print("error loading existing product");  
+      emit(EmptyScreenState());
+    }
+
   }
 }
