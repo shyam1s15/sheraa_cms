@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/bloc/app_bloc.dart';
+import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
+import 'package:sheraa_cms/ui/products/product_create_screen.dart';
+import 'package:sheraa_cms/ui/products/product_list.dart';
 
 /// Flutter code sample for [NavigationRail].
 
@@ -12,6 +15,7 @@ class NavigationRailExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      // theme: ThemeD,
       home: NavRailExample(),
     );
   }
@@ -35,6 +39,7 @@ class _NavRailExampleState extends State<NavRailExample> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           NavigationRail(
             selectedIndex: _selectedIndex,
@@ -42,6 +47,10 @@ class _NavRailExampleState extends State<NavRailExample> {
             onDestinationSelected: (int index) {
               setState(() {
                 _selectedIndex = index;
+                if (_selectedIndex == 1) {
+                  BlocProvider.of<AppBloc>(context).add(LoadProductsAppEvent());
+                }
+
               });
             },
             labelType: labelType,
@@ -92,7 +101,16 @@ class _NavRailExampleState extends State<NavRailExample> {
             builder: (context, state) {
               if (state is AppInitial) {
                 return Container(child: Text("data"),);
-              } else {
+              } else if (state is AppErrorState) {
+                return Container(child: Text(state.error),);
+              } else if (state is AppLoadingState) {
+                return Container(child: Text("App is loading please wait"),);
+              } else if (state is ProductsPageState) {
+                return ProductListWidget(products: state.products);
+              } else if (state is ProductCreateScreenState) {
+                return ProductCreateScreen(data: state.data as CategoriesAndSubcategoriesListDto);
+              }
+              else {
                 return Container();
               }
             },
