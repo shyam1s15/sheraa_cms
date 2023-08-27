@@ -25,7 +25,14 @@ class ProductsPageState extends AppState {
   @override
   List<Object> get props => [products];
 }
-class CategoriesPageState extends AppState {}
+class CategoriesPageState extends AppState {
+  final List<CategoryDto> categories;
+
+  CategoriesPageState(this.categories);
+
+  @override
+  List<Object> get props => [categories]; 
+}
 
 class AppErrorState extends AppState {
   final String error;
@@ -55,3 +62,16 @@ class ProductUpdateScreenState extends AppState {
   @override
   List<Object> get props => [categories, product];
 }
+
+class CategoryCreateScreenState extends AppState {
+
+}
+
+class CategoryUpdateScreenState extends AppState {
+  final CategoryDto category;
+
+  CategoryUpdateScreenState(this.category);
+  @override
+  List<Object> get props => [category];
+}
+

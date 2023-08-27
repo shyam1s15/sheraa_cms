@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/bloc/app_bloc.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
+import 'package:sheraa_cms/ui/categories/category_create_page.dart';
+import 'package:sheraa_cms/ui/categories/category_list_page.dart';
+import 'package:sheraa_cms/ui/categories/category_update_page.dart';
 import 'package:sheraa_cms/ui/products/product_create_screen.dart';
 import 'package:sheraa_cms/ui/products/product_list.dart';
 import 'package:sheraa_cms/ui/products/product_update_screen.dart';
@@ -52,7 +55,9 @@ class _NavRailExampleState extends State<NavRailExample> {
                 if (_selectedIndex == 1) {
                   BlocProvider.of<AppBloc>(context).add(LoadProductsAppEvent());
                 }
-
+                if (_selectedIndex == 3) {
+                  BlocProvider.of<AppBloc>(context).add(LoadCategoriesAppEvent());
+                }
               });
             },
             labelType: labelType,
@@ -113,6 +118,12 @@ class _NavRailExampleState extends State<NavRailExample> {
                 return ProductCreateScreen(data: state.data as CategoriesAndSubcategoriesListDto);
               } else if (state is ProductUpdateScreenState) {
                 return ProductUpdateScreen(product: state.product as ProductDto, categories: state.categories as CategoriesAndSubcategoriesListDto);
+              } else if (state is CategoriesPageState) {
+                return CategoryListPage(categoryList: state.categories);
+              } else if (state is CategoryCreateScreenState) {
+                return CategoryCreatePage();
+              } else if (state is CategoryUpdateScreenState) {
+                return CategoryUpdatePage(category: state.category);
               }
               else {
                 return Container();

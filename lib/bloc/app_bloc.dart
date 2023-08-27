@@ -7,6 +7,7 @@ import 'package:sheraa_cms/api/categories_api.dart';
 import 'package:sheraa_cms/api/obtained_response.dart';
 import 'package:sheraa_cms/api/products_api.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
+import 'package:sheraa_cms/dto/category_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
 import 'package:sheraa_cms/ui/products/product_update_screen.dart';
 
@@ -33,6 +34,9 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
     on <LoadUpdateProductScreen>(_loadUpdateProductScreen);
 
+    on<LoadCreateCategoryScreen>(_loadCreateCategoryScreen);
+
+    on<LoadUpdateCategoryScreen>(_loadUpdateCategoryScreen);
     
   }
 
@@ -50,13 +54,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     ObtainedResponse resp = await api.getProducts(0);
     if (resp.result == API_RESULT.FAILED) {
       print("failed to get products");
+      emit(AppErrorState("failed to get products"));
     } else {
       print("loaded products state");
       emit(ProductsPageState(resp.data as List<ProductDto>));
     }
   }
 
-  FutureOr<void> _loadAppCategories(LoadCategoriesAppEvent event, Emitter<AppState> emit) {
+  FutureOr<void> _loadAppCategories(LoadCategoriesAppEvent event, Emitter<AppState> emit) async {
+    emit(AppLoadingState());
+    CategoriesApi api = CategoriesApi();
+    ObtainedResponse resp = await api.getCategoriesDetailList();
+    if (resp.result == API_RESULT.SUCCESS) {
+      emit(CategoriesPageState(resp.data as List<CategoryDto>));
+    } else {
+      print("failed to get categories");
+      emit(AppErrorState("failed to get categories"));
+    }
   }
 
   FutureOr<void> _loadApplication(InitialAppEvent event, Emitter<AppState> emit) {
@@ -89,6 +103,23 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     } else {
       print("error loading existing product");  
       emit(EmptyScreenState());
+    }
+
+  }
+
+  FutureOr<void> _loadCreateCategoryScreen(LoadCreateCategoryScreen event, Emitter<AppState> emit) {
+    emit((CategoryCreateScreenState()));
+  }
+
+  FutureOr<void> _loadUpdateCategoryScreen(LoadUpdateCategoryScreen event, Emitter<AppState> emit) async {
+    CategoriesApi api = CategoriesApi();
+    print(event.categoryId);
+    ObtainedResponse resp = await api.getCategory(event.categoryId);
+    if (resp.result == API_RESULT.SUCCESS) {
+      emit(CategoryUpdateScreenState(resp.data as CategoryDto));
+    } else {
+      print(resp.data as String);  
+      emit(AppErrorState("error loading existing category"));
     }
 
   }

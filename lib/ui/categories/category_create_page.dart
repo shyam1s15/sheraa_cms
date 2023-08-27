@@ -69,8 +69,9 @@ class _CategoryCreatePageState extends State<CategoryCreatePage> {
             onPressed: () async {
               CategoryDto dto = CategoryDto(
                   name: _categoryNameController.text,
+                  icon: icon,
                   bgColor: _categoryBgController.text);
-              CategoriesApi api = new CategoriesApi();
+              CategoriesApi api = CategoriesApi();
               ObtainedResponse resp = await api.saveCategory(dto);
               if (resp.result == API_RESULT.SUCCESS) {
                 ScaffoldMessenger.of(context).showSnackBar(
@@ -205,7 +206,9 @@ Future<void> _uploadImage(FilePickerResult? result) async {
     FileUploadCmsApi api = FileUploadCmsApi();
     ObtainedResponse resp = await api.uploadFile(fileBytes);
     if (resp.result == API_RESULT.SUCCESS) {
-      icon = resp.data as String;
+      setState(() {
+        icon = resp.data as String;      
+      });
       print(icon);
     } else {
       icon = "empty"; // TODO: add default image link
