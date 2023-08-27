@@ -3,10 +3,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+// import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/services.dart';
 import 'package:sheraa_cms/api/base_api.dart';
-import 'dart:html';
 
 import 'package:sheraa_cms/api/file_api.dart';
 import 'package:sheraa_cms/api/obtained_response.dart';
@@ -53,6 +52,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   void initState() {
     // TODO: implement initState
     _category = widget.data.categories[0];
+    super.initState();
   }
 
   // final controller
@@ -210,8 +210,8 @@ class ImagePickerWidget extends StatefulWidget {
 class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   List<PlatformFile> _imageFiles = [];
 
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+  // firebase_storage.FirebaseStorage storage =
+  //     firebase_storage.FirebaseStorage.instance;
 
   Future<void> _pickImage() async {
     try {
@@ -272,19 +272,19 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     // uploadUint8List(fileBytes, fileName);
   }
 
-  Future<void> uploadUint8List(Uint8List uint8List, String fileName) async {
-    final blob = Blob([uint8List]);
-    final storageRef = storage.ref().child(fileName);
+  // Future<void> uploadUint8List(Uint8List uint8List, String fileName) async {
+  //   final blob = Blob([uint8List]);
+  //   // final storageRef = storage.ref().child(fileName);
 
-    final uploadTask = storageRef.putBlob(blob);
+  //   final uploadTask = storageRef.putBlob(blob);
 
-    try {
-      await uploadTask;
-      print('Upload complete!');
-    } catch (e) {
-      print('Upload failed: $e');
-    }
-  }
+  //   try {
+  //     await uploadTask;
+  //     print('Upload complete!');
+  //   } catch (e) {
+  //     print('Upload failed: $e');
+  //   }
+  // }
 
   void _cancelImage(int index) {
     setState(() {

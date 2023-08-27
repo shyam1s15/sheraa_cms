@@ -11,7 +11,6 @@ import '../../api/file_api.dart';
 import '../../api/obtained_response.dart';
 import '../../api/products_api.dart';
 import '../../dto/categories_subcategories_list_dto.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 List<String> productImages = [];
 
@@ -178,7 +177,7 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
                       children: [
                         Icon(Icons.check, color: Colors.green),
                         SizedBox(width: 8),
-                        Text("Product Created Successfully"),
+                        Text("Product Updated Successfully"),
                       ],
                     ),
                     backgroundColor: Colors.green,
@@ -192,7 +191,7 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
                       children: [
                         Icon(Icons.check, color: Colors.red),
                         SizedBox(width: 8),
-                        Text("Product creation failed"),
+                        Text("Product Updation failed"),
                       ],
                     ),
                     backgroundColor: Colors.red,
@@ -217,8 +216,8 @@ class ImagePickerWidget extends StatefulWidget {
 class _ImagePickerWidgetState extends State<ImagePickerWidget> {
   List<PlatformFile> _imageFiles = [];
 
-  firebase_storage.FirebaseStorage storage =
-      firebase_storage.FirebaseStorage.instance;
+  // firebase_storage.FirebaseStorage storage =
+  //     firebase_storage.FirebaseStorage.instance;
 
   Future<void> _pickImage() async {
     try {
@@ -278,19 +277,19 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
     // uploadUint8List(fileBytes, fileName);
   }
 
-  Future<void> uploadUint8List(Uint8List uint8List, String fileName) async {
-    final blob = Blob([uint8List]);
-    final storageRef = storage.ref().child(fileName);
+  // Future<void> uploadUint8List(Uint8List uint8List, String fileName) async {
+  //   final blob = Blob([uint8List]);
+  //   final storageRef = storage.ref().child(fileName);
 
-    final uploadTask = storageRef.putBlob(blob);
+  //   final uploadTask = storageRef.putBlob(blob);
 
-    try {
-      await uploadTask;
-      print('Upload complete!');
-    } catch (e) {
-      print('Upload failed: $e');
-    }
-  }
+  //   try {
+  //     await uploadTask;
+  //     print('Upload complete!');
+  //   } catch (e) {
+  //     print('Upload failed: $e');
+  //   }
+  // }
 
   void _cancelImage(int index) {
     setState(() {
