@@ -37,3 +37,14 @@ class LoadUpdateProductScreen extends AppEvent {
   @override
   List<Object> get props => [productId];
 }
+
+class LoadUpdateCategoryScreen extends AppEvent {
+  final String categoryId;
+  LoadUpdateCategoryScreen(this.categoryId);
+
+  @override
+  List<Object> get props => [categoryId];
+}
+
+class LoadCreateCategoryScreen extends AppEvent {}
+

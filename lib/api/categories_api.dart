@@ -4,6 +4,7 @@ import 'package:sheraa_cms/api/base_api.dart';
 import 'package:sheraa_cms/api/obtained_response.dart';
 import 'package:http/http.dart' as http;
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
+import 'package:sheraa_cms/dto/category_dto.dart';
 
 class CategoriesApi {
   Future<ObtainedResponse> getCategoriesAndSubCategories() async {
@@ -36,4 +37,6 @@ class CategoriesApi {
     }
     return ObtainedResponse(API_RESULT.FAILED, "Bad response from server");
   }
+
+  saveCategory(CategoryDto dto) {}
 }

@@ -27,8 +27,8 @@ class ProductCreateScreen extends StatefulWidget {
 class _ProductCreateScreenState extends State<ProductCreateScreen> {
   final TextEditingController _productNameController = TextEditingController();
   String _category = "0";
-  final TextEditingController _productSubcategoryController =
-      TextEditingController();
+  // final TextEditingController _productSubcategoryController =
+  //     TextEditingController();
   final TextEditingController _productPriceController = TextEditingController();
   final TextEditingController _productSummaryController =
       TextEditingController();
@@ -40,7 +40,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
   @override
   void dispose() {
     _productNameController.dispose();
-    _productSubcategoryController.dispose();
+    // _productSubcategoryController.dispose();
     _productSummaryController.dispose();
     _productDescriptionController.dispose();
     _productOfferTextController.dispose();
@@ -244,7 +244,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       print("failed to upload image");
       return;
     }
-    ;
+
 
     PlatformFile file = result.files.first;
 
