@@ -8,6 +8,7 @@ class ProductDto {
   String? summary;
   String? description;
   String? offerText;
+  bool? isTrending;
 
   ProductDto({
     this.id,
@@ -19,6 +20,7 @@ class ProductDto {
     this.summary,
     this.description,
     this.offerText,
+    this.isTrending
   });
 
   factory ProductDto.fromJson(Map<String, dynamic> json) {
@@ -34,6 +36,7 @@ class ProductDto {
       summary: json['summary'],
       description: json['description'],
       offerText: json['offer_text'],
+      isTrending: json['is_trending'],
     );
   }
 
@@ -48,6 +51,7 @@ class ProductDto {
       'summary': summary,
       'description': description,
       'offer_text': offerText,
+      'is_trending': isTrending,
     };
   }
 }

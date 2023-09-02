@@ -35,6 +35,7 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
       TextEditingController();
   final TextEditingController _productOfferTextController =
       TextEditingController();
+  bool is_trending = false;
 
   @override
   void dispose() {
@@ -57,7 +58,7 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
     _productDescriptionController.text = widget.product.description ?? "";
     _productOfferTextController.text = widget.product.offerText ?? "";
     _productSummaryController.text = widget.product.summary ?? "";
-
+    is_trending = widget.product.isTrending ?? false;
     productImages = widget.product.images ?? [];
   }
 
@@ -156,6 +157,23 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: is_trending,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      is_trending = newValue ?? false;
+                    });
+                  },
+                ),
+                SizedBox(width: 10,),
+                Text("make it trending?"),
+              ],
+            ),
+          ),
           ImagePickerWidget(),
           ElevatedButton(
             onPressed: () async {
@@ -167,9 +185,11 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
                   images: productImages,
                   price: int.parse(_productPriceController.text),
                   summary: _productSummaryController.text,
-                  offerText: _productOfferTextController.text);
+                  offerText: _productOfferTextController.text,
+                  isTrending: is_trending);
               ProductCmsApi api = new ProductCmsApi();
-              ObtainedResponse resp = await api.saveProduct(dto);
+              ObtainedResponse resp = await api.updateProduct(dto);
+              //print(resp.data);
               if (resp.result == API_RESULT.SUCCESS) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

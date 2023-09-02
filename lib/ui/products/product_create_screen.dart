@@ -35,6 +35,7 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
       TextEditingController();
   final TextEditingController _productOfferTextController =
       TextEditingController();
+  bool is_trending = false;
 
   @override
   void dispose() {
@@ -151,6 +152,23 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Checkbox(
+                  value: is_trending,
+                  onChanged: (bool? newValue) {
+                    setState(() {
+                      is_trending = newValue ?? false;
+                    });
+                  },
+                ),
+                SizedBox(width: 10,),
+                Text("make it trending?"),
+              ],
+            ),
+          ),
           ImagePickerWidget(),
           ElevatedButton(
             onPressed: () async {
@@ -161,7 +179,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                   images: productImages,
                   price: int.parse(_productPriceController.text),
                   summary: _productSummaryController.text,
-                  offerText: _productOfferTextController.text);
+                  offerText: _productOfferTextController.text,
+                  isTrending: is_trending);
               ProductCmsApi api = new ProductCmsApi();
               ObtainedResponse resp = await api.saveProduct(dto);
               if (resp.result == API_RESULT.SUCCESS) {
@@ -244,7 +263,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
       print("failed to upload image");
       return;
     }
-
 
     PlatformFile file = result.files.first;
 

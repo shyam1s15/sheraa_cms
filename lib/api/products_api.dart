@@ -68,6 +68,35 @@ class ProductCmsApi {
       
   }
 
+  Future<ObtainedResponse> updateProduct(ProductDto dto) async {
+    final response = await http.post(
+      Uri.parse(BASE_API + "/cms/products/update"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(dto.toJson())
+    );
+
+    if (response.statusCode == 200) {
+      final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
+      // print()
+      if (responseJson['response']['error'] == 0) {
+        // for (int i = 0;
+        //     i < responseJson['content'].length;
+        //     i++) {
+        //   ProductDto assignment =
+        //       ProductDto.fromJson(responseJson['content'][i]);
+        //   products.add(assignment);
+        // }
+        return ObtainedResponse(API_RESULT.SUCCESS, true);
+      } 
+      
+      return ObtainedResponse(API_RESULT.FAILED, responseJson['response']['message']);
+    }
+    return ObtainedResponse(API_RESULT.FAILED, "Bad response from server");
+      
+  }
+
   Future<ObtainedResponse> getProduct(String productId) async {
     
     final response = await http.get(
