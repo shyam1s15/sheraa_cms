@@ -313,7 +313,6 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
 
   void _cancelImage(int index) {
     setState(() {
-      _imageFiles.removeAt(index);
       productImages.removeAt(index);
     });
   }
