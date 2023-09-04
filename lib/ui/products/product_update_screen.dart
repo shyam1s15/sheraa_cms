@@ -84,10 +84,12 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
           ),
           const Divider(height: 0),
           DropdownButton<String>(
-            value: widget.categories.categories[0], // Default selected value
+            value: _category, // Default selected value
             onChanged: (String? newValue) {
               // Handle dropdown value change
-              _category = newValue ?? "";
+              setState(() {
+                _category = newValue ?? "";                
+              });
               print(newValue);
             },
             items: widget.categories.categories.map<DropdownMenuItem<String>>(
