@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 // import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/api/base_api.dart';
 
 import 'package:sheraa_cms/api/file_api.dart';
@@ -12,6 +13,8 @@ import 'package:sheraa_cms/api/obtained_response.dart';
 import 'package:sheraa_cms/api/products_api.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
+
+import '../../bloc/app_bloc.dart';
 
 List<String> productImages = [];
 
@@ -197,6 +200,8 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                     duration: Duration(seconds: 3),
                   ),
                 );
+                BlocProvider.of<AppBloc>(context).add(LoadProductsAppEvent());
+
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -213,7 +218,10 @@ class _ProductCreateScreenState extends State<ProductCreateScreen> {
                 );
               }
             },
-            child: Text('Create Product'),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Create Product'),
+            ),
           ),
         ],
       ),
@@ -352,6 +360,8 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             onPressed: _pickImage,
             child: Text('Add Product Images'),
           ),
+          SizedBox(height: 20),
+
         ],
       ),
     );

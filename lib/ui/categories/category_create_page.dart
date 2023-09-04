@@ -2,12 +2,14 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/dto/category_dto.dart';
 
 import '../../api/base_api.dart';
 import '../../api/categories_api.dart';
 import '../../api/file_api.dart';
 import '../../api/obtained_response.dart';
+import '../../bloc/app_bloc.dart';
 
 String icon = "";
 class CategoryCreatePage extends StatefulWidget {
@@ -30,6 +32,16 @@ class _CategoryCreatePageState extends State<CategoryCreatePage> {
     _categoryBgController.dispose();
     super.dispose();
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    icon = "";
+    _categoryNameController.text = "";
+    _categoryBgController.text = "";
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +99,7 @@ class _CategoryCreatePageState extends State<CategoryCreatePage> {
                     duration: Duration(seconds: 3),
                   ),
                 );
+                BlocProvider.of<AppBloc>(context).add(LoadCategoriesAppEvent());
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -103,7 +116,10 @@ class _CategoryCreatePageState extends State<CategoryCreatePage> {
                 );
               }
             },
-            child: Text('Create Category'),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Create Category'),
+            ),
           ),
         ],
       ),
@@ -162,6 +178,8 @@ class _CategoryImageUploadState extends State<CategoryImageUpload> {
             onPressed: _pickImage,
             child: Text('Add Category Icons'),
           ),
+          SizedBox(height: 20),
+
         ],
       ),
     );

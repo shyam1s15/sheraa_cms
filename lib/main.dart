@@ -32,7 +32,10 @@ Future<void> main() async {
     runApp(MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => AppBloc()..add(InitialAppEvent()),
+          create: (context) {
+            print("close your eyes cms");
+            return AppBloc()..add(InitialAppEvent());
+          },
         ),
       ],
       child: NavigationRailExampleApp(),

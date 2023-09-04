@@ -4,12 +4,14 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
 
 import '../../api/base_api.dart';
 import '../../api/file_api.dart';
 import '../../api/obtained_response.dart';
 import '../../api/products_api.dart';
+import '../../bloc/app_bloc.dart';
 import '../../dto/categories_subcategories_list_dto.dart';
 
 List<String> productImages = [];
@@ -204,6 +206,8 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
                     duration: Duration(seconds: 3),
                   ),
                 );
+                BlocProvider.of<AppBloc>(context).add(LoadProductsAppEvent());
+
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -220,7 +224,10 @@ class _ProductUpdateScreenState extends State<ProductUpdateScreen> {
                 );
               }
             },
-            child: Text('Update Product'),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text('Update Product'),
+            ),
           ),
         ],
       ),
@@ -384,6 +391,7 @@ class _ImagePickerWidgetState extends State<ImagePickerWidget> {
             onPressed: _pickImage,
             child: Text('Add Product Images'),
           ),
+          SizedBox(height: 20),
         ],
       ),
     );

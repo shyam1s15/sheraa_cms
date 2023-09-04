@@ -2,12 +2,14 @@ import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/dto/category_dto.dart';
 
 import '../../api/base_api.dart';
 import '../../api/categories_api.dart';
 import '../../api/file_api.dart';
 import '../../api/obtained_response.dart';
+import '../../bloc/app_bloc.dart';
 
 String icon = "";
 class CategoryUpdatePage extends StatefulWidget {
@@ -89,13 +91,15 @@ class _CategoryUpdatePageState extends State<CategoryUpdatePage> {
                       children: [
                         Icon(Icons.check, color: Colors.green),
                         SizedBox(width: 8),
-                        Text("Category Created Successfully"),
+                        Text("Category Updated Successfully"),
                       ],
                     ),
                     backgroundColor: Colors.green,
                     duration: Duration(seconds: 3),
                   ),
                 );
+                BlocProvider.of<AppBloc>(context).add(LoadCategoriesAppEvent());
+
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -112,7 +116,10 @@ class _CategoryUpdatePageState extends State<CategoryUpdatePage> {
                 );
               }
             },
-            child: Text('Create Category'),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text('Update Category'),
+            ),
           ),
         ],
       ),
@@ -171,6 +178,8 @@ class _CategoryImageUploadState extends State<CategoryImageUpload> {
             onPressed: _pickImage,
             child: Text('Add Category Icons'),
           ),
+          SizedBox(height: 20),
+
         ],
       ),
     );

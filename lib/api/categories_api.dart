@@ -49,9 +49,10 @@ class CategoriesApi {
 
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
+      print(responseJson);
       if (responseJson['response']['error'] == 0) {
-        CategoryDto cat = CategoryDto.fromJson(responseJson['content']);
-        return ObtainedResponse(API_RESULT.SUCCESS, cat);
+        // CategoryDto cat = CategoryDto.fromJson(responseJson['content']);
+        return ObtainedResponse(API_RESULT.SUCCESS, true);
       } 
       return ObtainedResponse(API_RESULT.FAILED, responseJson['response']['message']);
     }

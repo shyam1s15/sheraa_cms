@@ -9,7 +9,6 @@ import 'package:sheraa_cms/api/products_api.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
 import 'package:sheraa_cms/dto/category_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
-import 'package:sheraa_cms/ui/products/product_update_screen.dart';
 
 part 'app_event.dart';
 part 'app_state.dart';
