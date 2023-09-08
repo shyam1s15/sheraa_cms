@@ -6,6 +6,7 @@ import 'package:sheraa_cms/dto/product_dto.dart';
 import 'package:sheraa_cms/ui/categories/category_create_page.dart';
 import 'package:sheraa_cms/ui/categories/category_list_page.dart';
 import 'package:sheraa_cms/ui/categories/category_update_page.dart';
+import 'package:sheraa_cms/ui/orders/order_list.dart';
 import 'package:sheraa_cms/ui/products/product_create_screen.dart';
 import 'package:sheraa_cms/ui/products/product_list.dart';
 import 'package:sheraa_cms/ui/products/product_update_screen.dart';
@@ -20,6 +21,7 @@ class NavigationRailExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       // theme: ThemeD,
       home: NavRailExample(),
     );
@@ -41,6 +43,12 @@ class _NavRailExampleState extends State<NavRailExample> {
   double groupAlignment = -1.0;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    BlocProvider.of<AppBloc>(context).add(LoadOrdersAppEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
@@ -52,10 +60,14 @@ class _NavRailExampleState extends State<NavRailExample> {
             onDestinationSelected: (int index) {
               setState(() {
                 _selectedIndex = index;
-                if (_selectedIndex == 1) {
+                if (_selectedIndex == 0) {
+                  print("orders ");
+                  BlocProvider.of<AppBloc>(context).add(LoadOrdersAppEvent());
+                }
+                else if (_selectedIndex == 1) {
                   BlocProvider.of<AppBloc>(context).add(LoadProductsAppEvent());
                 }
-                if (_selectedIndex == 3) {
+                else if (_selectedIndex == 3) {
                   BlocProvider.of<AppBloc>(context).add(LoadCategoriesAppEvent());
                 }
               });
@@ -124,6 +136,8 @@ class _NavRailExampleState extends State<NavRailExample> {
                 return CategoryCreatePage();
               } else if (state is CategoryUpdateScreenState) {
                 return CategoryUpdatePage(category: state.category);
+              } else if (state is OrdersPageState) {
+                return OrderListPage(orderList: state.orderList);
               }
               else {
                 return Container();

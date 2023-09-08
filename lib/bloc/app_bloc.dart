@@ -5,9 +5,11 @@ import 'package:equatable/equatable.dart';
 import 'package:sheraa_cms/api/base_api.dart';
 import 'package:sheraa_cms/api/categories_api.dart';
 import 'package:sheraa_cms/api/obtained_response.dart';
+import 'package:sheraa_cms/api/order_api.dart';
 import 'package:sheraa_cms/api/products_api.dart';
 import 'package:sheraa_cms/dto/categories_subcategories_list_dto.dart';
 import 'package:sheraa_cms/dto/category_dto.dart';
+import 'package:sheraa_cms/dto/order_dto.dart';
 import 'package:sheraa_cms/dto/product_dto.dart';
 
 part 'app_event.dart';
@@ -42,7 +44,16 @@ class AppBloc extends Bloc<AppEvent, AppState> {
   FutureOr<void> _loadExistingAppUsers(LoadUsersAppEvent event, Emitter<AppState> emit) {
   }
 
-  FutureOr<void> _loadAppOrders(LoadOrdersAppEvent event, Emitter<AppState> emit) {
+  FutureOr<void> _loadAppOrders(LoadOrdersAppEvent event, Emitter<AppState> emit) async {
+    OrderApi api = OrderApi();
+    ObtainedResponse resp = await api.getActiveOrders(0);
+    if (resp.result == API_RESULT.FAILED) {
+      print("failed to get products");
+      emit(AppErrorState("failed to get products"));
+    } else {
+      print("loaded orders state");
+      emit(OrdersPageState(resp.data as List<OrderDetailDto>));
+    }
   }
 
   FutureOr<void> _loadAppProducts(LoadProductsAppEvent event, Emitter<AppState> emit) async {

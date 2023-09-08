@@ -16,6 +16,14 @@ class LoadUsersAppEvent extends AppEvent {}
 class LoadProductsAppEvent extends AppEvent {}
 
 class LoadOrdersAppEvent extends AppEvent {}
+class LoadOrderDetailCmsEvent extends AppEvent {
+  final String orderId;
+
+  LoadOrderDetailCmsEvent(this.orderId);
+
+  @override
+  List<Object> get props => [orderId];
+}
 
 class LoadCategoriesAppEvent extends AppEvent {}
 

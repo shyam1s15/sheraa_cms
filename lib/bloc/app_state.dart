@@ -16,7 +16,23 @@ class AppLoadingState extends AppState {
 }
 
 class UsersPageState extends AppState {}
-class OrdersPageState extends AppState {}
+class OrdersPageState extends AppState {
+  List<OrderDetailDto> orderList;
+
+  OrdersPageState(this.orderList);
+
+  @override
+  List<Object> get props => [orderList];
+}
+
+class OrderDetailPageLoadedState extends AppState {
+  OrderDetailDto orderDto;
+
+  OrderDetailPageLoadedState(this.orderDto);
+
+  @override
+  List<Object> get props => [orderDto];
+}
 class ProductsPageState extends AppState {
   final List<ProductDto> products;
 
