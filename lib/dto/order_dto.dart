@@ -20,11 +20,11 @@ class OrderDetailDto {
   // Constructor to create an OrderDetailDto instance from a map
   factory OrderDetailDto.fromJson(Map<String, dynamic> json) {
     return OrderDetailDto(
-      id: json['id'],
+      id: json['id'] ?? "",
       item: ProductDto.fromJson(json['item']),
-      userName: json['user_name'],
-      userPhone: json['user_phone'],
-      userAddress: json['user_address'],
+      userName: json['user_name'] ?? "",
+      userPhone: json['user_phone'] ?? "",
+      userAddress: json['user_address'] ?? "",
       created: json['created'],
     );
   }

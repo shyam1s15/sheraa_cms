@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sheraa_cms/bloc/app_bloc.dart';
 import 'package:sheraa_cms/dto/order_dto.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderListPage extends StatelessWidget {
   const OrderListPage({super.key, required this.orderList});
@@ -77,8 +78,46 @@ class OrderTile extends StatelessWidget {
             ),
           ],
         ),
-        trailing: Icon(Icons.phone),
+        trailing: InkWell(
+          onTap: () async {
+            // if (dto.userPhone != null && dto.userName!.length > 9) {
+                bool passed = await launchPhoneCall(dto.userPhone!);
+                if (!passed) {
+                  _showErrorSnackBar(context, "could not launch phone call");
+                }
+            // }
+          },
+          child: Icon(Icons.phone)),
       ),
     );
   }
+
+  Future<bool> launchPhoneCall(String phoneNumber) async {
+  if (phoneNumber == null) return false;
+  
+  final url = Uri.parse('tel:$phoneNumber');
+  if (await canLaunchUrl(url)) {
+    await launchUrl(url);
+  } else {
+    return false;
+  }
+  return true;
+  }
+
+  void _showErrorSnackBar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Row(
+                      children: [
+                        Icon(Icons.check, color: Colors.red),
+                        SizedBox(width: 8),
+                        Text(message),
+                      ],
+                    ),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 3),
+                  ),
+                );
+}
+
 }
