@@ -48,8 +48,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
     OrderApi api = OrderApi();
     ObtainedResponse resp = await api.getActiveOrders(0);
     if (resp.result == API_RESULT.FAILED) {
-      print("failed to get products");
-      emit(AppErrorState("failed to get products"));
+      print("failed to get orders");
+      emit(AppErrorState("failed to get orders"));
     } else {
       print("loaded orders state");
       emit(OrdersPageState(resp.data as List<OrderDetailDto>));

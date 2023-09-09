@@ -8,13 +8,18 @@ import 'package:sheraa_cms/dto/order_dto.dart';
 class OrderApi {
   Future<ObtainedResponse> getActiveOrders(int pageId) async {
     List<OrderDetailDto> resp = [];
-
-    final response = await http.get(
+    final payload = {
+      'page_id' : pageId
+    };
+    final response = await http.post(
       Uri.parse(BASE_API + "/app/orders/fetch_all"),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
+      body: jsonEncode(payload)
     );
+    print(response.statusCode);
+    print(response.bodyBytes);
 
     if (response.statusCode == 200) {
       final responseJson = jsonDecode(utf8.decode(response.bodyBytes));
