@@ -2,10 +2,11 @@
 
 CMS for flutter application, which can use to configure data for app
 ## Getting Started
-Bloc Application
-Firebase 
-Mongo DB
-Flutter
+- Bloc Application
+- Firebase 
+- Mongo DB
+- Flutter
+- Spring boot
 
 A few resources to get you started if this is your first Flutter project:
 
